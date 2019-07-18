@@ -15,11 +15,14 @@ public class ReciveMsg implements PluginMessageListener {
         String recive=new String(bytes, StandardCharsets.UTF_8);
         JsonObject jsonObject= (JsonObject) new JsonParser().parse(recive);
         String type=jsonObject.get("sittype").getAsString();
+        //String Health=jsonObject.get("Health").getAsString();
         String name = player.getName();
         if (type.equalsIgnoreCase("true")){
             if (sitgod.sitgodinfo.contains(name)){
+                System.out.println(name+"结束打坐");
                 sitgod.sitgodinfo.remove(name);
             }else {
+                System.out.println(name+"开始打坐");
                 sitgod.sitgodinfo.add(name);
             }
         }

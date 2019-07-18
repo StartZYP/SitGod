@@ -1,0 +1,5 @@
+name: sitgod
+main: com.github.qq44920040.sitgod
+version: 1.0
+commands:
+  zy:

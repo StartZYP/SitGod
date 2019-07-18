@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -25,6 +27,21 @@ public class sitgod extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this,this);
         plugin=this;
         super.onEnable();
+    }
+
+    @EventHandler
+    public void PlayerQuitGameevent(PlayerQuitEvent event){
+        String name = event.getPlayer().getName();
+        sitgodinfo.remove(name);
+    }
+
+    @EventHandler
+    public void PlayerMoveEvent(PlayerMoveEvent event){
+        String name = event.getPlayer().getName();
+        if (sitgodinfo.contains(name)){
+            event.setCancelled(true);
+            event.getPlayer().sendMessage("§e§l您正咋打坐,不可移动");
+        }
     }
 
     @EventHandler

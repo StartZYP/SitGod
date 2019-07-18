@@ -17,4 +17,5 @@ public class SendMsg {
         stringBuilder.append("\"}");
         player.sendPluginMessage(sitgod.plugin,"sitgod",stringBuilder.toString().getBytes(Charset.forName("GBK")));
     }
+
 }

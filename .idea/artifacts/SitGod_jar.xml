@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact name="SitGod:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SitGod_jar</output-path>
+    <root id="root">
+      <element id="archive" name="SitGod.jar">
+        <element id="module-output" name="SitGod" />
+      </element>
+    </root>
+  </artifact>
+</component>
