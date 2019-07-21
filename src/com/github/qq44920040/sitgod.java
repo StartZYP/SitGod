@@ -3,6 +3,7 @@ package com.github.qq44920040;
 import com.github.qq44920040.NetWork.ReciveMsg;
 import com.github.qq44920040.NetWork.SendMsg;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,6 +27,27 @@ public class sitgod extends JavaPlugin implements Listener {
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "sitgod");
         getServer().getPluginManager().registerEvents(this,this);
         plugin=this;
+
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                for (String PlayerNmae:sitgodinfo){
+                    Player player = Bukkit.getServer().getPlayer(PlayerNmae);
+                    if (player.getHealth()!=player.getMaxHealth()){
+                        double v = player.getMaxHealth() / 10;
+                        player.setHealth(player.getHealth()+v);
+                    }
+                }
+            }
+        }.runTaskTimer(this,20L,20L*3);
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                for (Player player:Bukkit.getOnlinePlayers()){
+                    SendMsg.SendPlayersSitInfo(player);
+                }
+            }
+        }.runTaskTimer(this,20L,20L);
         super.onEnable();
     }
 
@@ -37,21 +59,11 @@ public class sitgod extends JavaPlugin implements Listener {
 
     @EventHandler
     public void PlayerMoveEvent(PlayerMoveEvent event){
-        String name = event.getPlayer().getName();
-        if (sitgodinfo.contains(name)){
-            event.setCancelled(true);
-            event.getPlayer().sendMessage("§e§l您正咋打坐,不可移动");
-        }
-    }
-
-    @EventHandler
-    public void PlayerJoinGame(PlayerJoinEvent event){
-        Player player = event.getPlayer();
-        new BukkitRunnable(){
-            @Override
-            public void run() {
-                SendMsg.SendPlayersSitInfo(player);
+            Location from = event.getFrom();
+            if (from.getZ() != event.getTo().getZ() && from.getX() != event.getTo().getX()&&sitgodinfo.contains(event.getPlayer().getName())) {
+                event.getPlayer().sendMessage("§e§l打坐取消");
+                String name = event.getPlayer().getName();
+                sitgodinfo.remove(name);
             }
-        }.runTaskTimer(this,20L,40L);
     }
 }
